@@ -1,8 +1,8 @@
-const service = require('../services')
+const service = require('../services');
 
 const getTranscription = async (req, res) => {
-    const audio = await service.getTranscription()
-    return res.status(200).json(audio)
-}
+  const transcription = await service.getTranscription();
+  return res.status(200).json(transcription);
+};
 
-module.exports = { getTranscription }
+module.exports = { getTranscription };
