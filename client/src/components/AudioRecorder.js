@@ -32,6 +32,11 @@ const AudioRecorder = () => {
         }
     }
 
+    const handleDelete = (index) => {
+        const filtered = recordings.filter((i, objIndex) => objIndex !== index)
+        setRecordings(filtered)
+    }
+
     return(
         <div>
             <button onClick={record} disabled={loading}>
@@ -41,6 +46,7 @@ const AudioRecorder = () => {
                 {recordings.map((i, index) => (
                 <li key={`audio-${index}`}>
                     <audio src={i} controls></audio>
+                    <button onClick={() => handleDelete(index)}>Deletar</button>
                 </li>))}
             </ul>
         </div>
