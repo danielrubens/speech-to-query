@@ -11,7 +11,7 @@ const config = { encoding, sampleRateHertz, languageCode };
 const audio = { content: fs.readFileSync(filename).toString('base64') };
 const request = { config, audio };
 
-const getTranscription = async ()=> {
+const getTranscription = async () => {
     const client = new speech.SpeechClient();
     const [response] = await client.recognize(request);
     const transcription = response.results
