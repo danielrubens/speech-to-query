@@ -5,4 +5,9 @@ const getTranscription = async (req, res) => {
   return res.status(200).json(transcription);
 };
 
-module.exports = { getTranscription };
+const getAudio = async (req, res) => {
+  const answer = req.file
+  return res.status(200).json(answer)
+}
+
+module.exports = { getTranscription, getAudio };
