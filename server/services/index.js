@@ -22,4 +22,22 @@ const getTranscription = async () => {
   return transcription;
 };
 
-module.exports = { getTranscription };
+const transcriptFromClient = async (filename) => {
+  const encoding = 'LINEAR16';
+  const sampleRateHertz = 16000;
+  const languageCode = 'en-US';
+
+  // const filename = './audios/classicmodels.mpeg';
+  const config = { encoding, sampleRateHertz, languageCode };
+  const audio = { content: fs.readFileSync(filename).toString('base64') };
+  const request = { config, audio };
+
+  const client = new speech.SpeechClient();
+  const [response] = await client.recognize(request);
+  const transcription = response.results
+    .map((result) => result.alternatives[0].transcript)
+    .join('\n');
+  return transcription;
+};
+
+module.exports = { getTranscription, transcriptFromClient };

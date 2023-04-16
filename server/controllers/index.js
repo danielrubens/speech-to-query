@@ -1,3 +1,5 @@
+const { spawn } = require('child_process');
+const fs = require('fs');
 const service = require('../services');
 
 const getTranscription = async (req, res) => {
@@ -6,8 +8,10 @@ const getTranscription = async (req, res) => {
 };
 
 const getAudio = async (req, res) => {
-  const answer = req.file
-  return res.status(200).json(answer)
-}
+  console.log('Received audio file:', req.file);
+  res.send('Audio upload successful');
+  // return res.status(200).json('Hello')
+};
+
 
 module.exports = { getTranscription, getAudio };

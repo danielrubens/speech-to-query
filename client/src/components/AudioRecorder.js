@@ -41,8 +41,22 @@ const AudioRecorder = () => {
     const handleTranscription = async (index) => {
         const audioBlob = await fetch(recordings[index])
         .then(response => response.blob());
-        const toPost = ['audioFile', audioBlob]
-        await sendAudio(toPost)
+        // console.log(audioBlob)
+        const formData = new FormData()
+        formData.append('audio', audioBlob);
+        fetch('http://localhost:4010/upload-audio', {
+            method: 'POST',
+            body: formData
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Upload successful:', data);
+            })
+            .catch(error => {
+              console.error('Error uploading audio:', error);
+            });
+        // console.log(formData.get('audioFile').size)
+        // await sendAudio(formData)
     }
 
     return(

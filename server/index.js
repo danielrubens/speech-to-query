@@ -16,6 +16,11 @@ app.use(cors());
 const { PORT } = process.env;
 
 app.get('/', controller.getTranscription);
-app.post('/upload-audio', upload.single('audioFile'), controller.getAudio);
+app.post('/upload-audio', upload.single('audio'), controller.getAudio);
+// app.post('/upload-audio', upload.single('audio'), (req, res) => {
+//   console.log('Received audio file:', req.file);
+//   // Process the audio file as per your requirements
+//   res.send('Audio upload successful');
+// });
 
 app.listen(PORT, () => console.log(`Project running on port ${PORT}`));
