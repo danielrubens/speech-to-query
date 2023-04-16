@@ -12,12 +12,12 @@ const AudioRecorder = () => {
 
     const record = async () => {
         setLoading(true)
-        console.log(recordings)
         if(recording) {
             const blob = await recorder.stopRecording()
             setLoading(false)
             setRecording(false)
             setRecordings([...recordings, URL.createObjectURL(blob)])
+            
         }else{
             try{
                 await recorder.initAudio()
@@ -37,6 +37,12 @@ const AudioRecorder = () => {
         setRecordings(filtered)
     }
 
+    const handleTranscription = async (index) => {
+        const audioBlob = await fetch(recordings[index])
+        .then(response => response);
+        console.log(audioBlob)
+    }
+
     return(
         <div>
             <button onClick={record} disabled={loading}>
@@ -47,6 +53,7 @@ const AudioRecorder = () => {
                 <li key={`audio-${index}`}>
                     <audio src={i} controls></audio>
                     <button onClick={() => handleDelete(index)}>Deletar</button>
+                    <button onClick={() => handleTranscription(index)}>Transcription</button>
                 </li>))}
             </ul>
         </div>
