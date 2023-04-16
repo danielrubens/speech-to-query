@@ -12,6 +12,6 @@ app.use(cors())
 
 const PORT = process.env.PORT
 
-app.get('/', controller.getAudio)
+app.get('/', controller.getTranscription)
 
 app.listen(PORT, () => console.log(`Project running on port ${PORT}`))
