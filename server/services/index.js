@@ -8,7 +8,7 @@ const getTranscription = async () => {
 
   // const options = { 1: './audios/classicmodels.mp3', 2: './audios/johnny-cash.mp3' };
   // const filename = options[id];
-  const filename = './audios/classicmodels.mp3';
+  const filename = './audios/johnny-cash.mp3';
 
   const config = { encoding, sampleRateHertz, languageCode };
   const audio = { content: fs.readFileSync(filename).toString('base64') };

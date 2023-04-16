@@ -11,19 +11,22 @@ const AudioRecorder = () => {
     const [recordings, setRecordings] = useState([])
 
     const record = async () => {
-        setRecording(!recording)
+        setLoading(true)
+        console.log(recordings)
         if(recording) {
             const blob = await recorder.stopRecording()
             setLoading(false)
-            setRecordings(...recordings, URL.createObjectURL(blob))
+            setRecording(false)
+            setRecordings([...recordings, URL.createObjectURL(blob)])
         }else{
             try{
                 await recorder.initAudio()
                 await recorder.initWorker()
                 recorder.startRecording()
                 setLoading(false)
+                setRecording(true)
             }catch(error){
-                console.log(error)
+                console.log({error})
                 setLoading(false)
             }
         }
@@ -31,9 +34,15 @@ const AudioRecorder = () => {
 
     return(
         <div>
-            <button onClick={record}>
+            <button onClick={record} disabled={loading}>
                 {recording ? 'Stop': 'Record'}
             </button>
+            <ul>
+                {recordings.map((i, index) => (
+                <li key={`audio-${index}`}>
+                    <audio src={i} controls></audio>
+                </li>))}
+            </ul>
         </div>
     )
 }
