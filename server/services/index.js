@@ -22,14 +22,15 @@ const getTranscription = async () => {
   return transcription;
 };
 
-const transcriptFromClient = async (filename) => {
+const transcriptFromClient = async (buffer) => {
   const encoding = 'LINEAR16';
   const sampleRateHertz = 16000;
   const languageCode = 'en-US';
 
-  // const filename = './audios/classicmodels.mpeg';
+  const audio = { content: buffer.toString('base64') };
+  // console.log({audio})
+
   const config = { encoding, sampleRateHertz, languageCode };
-  const audio = { content: fs.readFileSync(filename).toString('base64') };
   const request = { config, audio };
 
   const client = new speech.SpeechClient();

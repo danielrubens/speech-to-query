@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import vmsg from 'vmsg'
-import sendAudio from '../api'
+import { sendAudio }from '../api'
 
 const recorder = new vmsg.Recorder({
     wasmURL: 'https://unpkg.com/vmsg@0.3.0/vmsg.wasm'
@@ -41,22 +41,10 @@ const AudioRecorder = () => {
     const handleTranscription = async (index) => {
         const audioBlob = await fetch(recordings[index])
         .then(response => response.blob());
-        // console.log(audioBlob)
         const formData = new FormData()
         formData.append('audio', audioBlob);
-        fetch('http://localhost:4010/upload-audio', {
-            method: 'POST',
-            body: formData
-          })
-            .then(response => response.json())
-            .then(data => {
-              console.log('Upload successful:', data);
-            })
-            .catch(error => {
-              console.error('Error uploading audio:', error);
-            });
-        // console.log(formData.get('audioFile').size)
-        // await sendAudio(formData)
+        const message = await sendAudio(formData)
+        console.log(message)
     }
 
     return(
