@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({baseURL: 'http://localhost:4012/'})
+const API = axios.create({baseURL: 'http://localhost:4010/'})
 
 const getAudio = async () =>{
     const response = await API.get('/')

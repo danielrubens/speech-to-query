@@ -5,7 +5,8 @@ const getTranscription = async () => {
   const encoding = 'MP3';
   const sampleRateHertz = 48000;
   const languageCode = 'en-US';
-  const filename = './audios/johnny-cash.mp3';
+  // const filename = './audios/johnny-cash.mp3';
+  const filename = './audios/teste_processed.mp3'
   const config = { encoding, sampleRateHertz, languageCode };
   const audio = { content: fs.readFileSync(filename).toString('base64') };
   const request = { config, audio };
@@ -19,12 +20,12 @@ const getTranscription = async () => {
 };
 
 async function transcriptFromClient(audioData) {
-  const encoding = 'LINEAR16';
+  const encoding = 'MP3';
   const sampleRateHertz = 16000;
   const languageCode = 'en-US';
   const config = { encoding, sampleRateHertz, languageCode };
 
-  const audio = { uri: 'gs://cloud-samples-data/speech/brooklyn_bridge.raw' };
+  const audio = { uri: 'gs://speech-to-query/audio-files/johnny-cash.mp3' };
   const request = { config, audio };
 
   const client = new speech.SpeechClient();
