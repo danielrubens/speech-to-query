@@ -5,8 +5,7 @@ const getTranscription = async () => {
   const encoding = 'MP3';
   const sampleRateHertz = 48000;
   const languageCode = 'en-US';
-  // const filename = './audios/johnny-cash.mp3';
-  const filename = './audios/teste_processed.mp3'
+  const filename = './audios/johnny-cash.mp3';
   const config = { encoding, sampleRateHertz, languageCode };
   const audio = { content: fs.readFileSync(filename).toString('base64') };
   const request = { config, audio };
@@ -25,7 +24,7 @@ async function transcriptFromClient(audioData) {
   const languageCode = 'en-US';
   const config = { encoding, sampleRateHertz, languageCode };
 
-  const audio = { uri: 'gs://speech-to-query/audio-files/johnny-cash.mp3' };
+  const audio = { content: fs.readFileSync(audioData).toString('base64') };
   const request = { config, audio };
 
   const client = new speech.SpeechClient();
