@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import vmsg from 'vmsg'
 import { sendAudio }from '../api'
 
@@ -10,6 +10,11 @@ const AudioRecorder = () => {
     const [loading, setLoading] = useState(false)
     const [recording, setRecording] = useState(false)
     const [recordings, setRecordings] = useState([])
+    const [savedForm, setSavedForm] = useState([])
+    const [transcription, setTranscription] = useState('')
+
+    useEffect(() => {if(savedForm) sendAudio(savedForm).then((res) => setTranscription(res.data.transcription))}, [savedForm])
+
 
     const record = async () => {
         setLoading(true)
@@ -38,14 +43,17 @@ const AudioRecorder = () => {
         setRecordings(filtered)
     }
 
+
     const handleTranscription = async (index) => {
-        const audioBlob = await fetch(recordings[index])
-        .then(response => response.blob());
+        const audioUrl = await fetch(recordings[index])
+          .then(response => response.blob())
+          .then(blob => URL.createObjectURL(blob));
         const formData = new FormData()
-        formData.append('audio', audioBlob, 'audio.flac');
+        formData.append('audio', audioUrl);
         await sendAudio(formData)
-        // await sendAudio({audio})
-    }
+        setSavedForm(formData)
+        URL.revokeObjectURL(audioUrl);
+      }
 
     return(
         <div>
@@ -59,6 +67,7 @@ const AudioRecorder = () => {
                     <button onClick={() => handleDelete(index)}>Deletar</button>
                     <button onClick={() => handleTranscription(index)}>Transcription</button>
                 </li>))}
+                {transcription.length > 0 && (<p>{transcription}</p>)}
             </ul>
         </div>
     )

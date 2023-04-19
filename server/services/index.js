@@ -1,10 +1,5 @@
-// const Speechfrombuffer = require('google-speech-from-buffer');
 const fs = require('fs');
 const speech = require('@google-cloud/speech');
-
-require('dotenv').config();
-
-// const { CREDENTIALS } = process.env;
 
 const getTranscription = async () => {
   const encoding = 'MP3';
@@ -24,19 +19,16 @@ const getTranscription = async () => {
 };
 
 async function transcriptFromClient(audioData) {
-  const encoding = 'FLAC';
-  const sampleRateHertz = 44100;
+  const encoding = 'LINEAR16';
+  const sampleRateHertz = 16000;
   const languageCode = 'en-US';
+  const config = { encoding, sampleRateHertz, languageCode };
 
-  const config = {
-    encoding, sampleRateHertz, languageCode, interimResults: true,
-  };
-  const audio = { content: audioData };
+  const audio = { uri: 'gs://cloud-samples-data/speech/brooklyn_bridge.raw' };
   const request = { config, audio };
 
   const client = new speech.SpeechClient();
   const [response] = await client.recognize(request);
-
   const transcription = response.results
     .map((result) => result.alternatives[0].transcript)
     .join('\n');
