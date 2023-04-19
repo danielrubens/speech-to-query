@@ -1,15 +1,16 @@
+// const Speechfrombuffer = require('google-speech-from-buffer');
 const fs = require('fs');
 const speech = require('@google-cloud/speech');
 
+require('dotenv').config();
+
+// const { CREDENTIALS } = process.env;
+
 const getTranscription = async () => {
   const encoding = 'MP3';
-  const sampleRateHertz = 16000;
+  const sampleRateHertz = 48000;
   const languageCode = 'en-US';
-
-  // const options = { 1: './audios/classicmodels.mp3', 2: './audios/johnny-cash.mp3' };
-  // const filename = options[id];
   const filename = './audios/johnny-cash.mp3';
-
   const config = { encoding, sampleRateHertz, languageCode };
   const audio = { content: fs.readFileSync(filename).toString('base64') };
   const request = { config, audio };
@@ -22,23 +23,25 @@ const getTranscription = async () => {
   return transcription;
 };
 
-const transcriptFromClient = async (buffer) => {
-  const encoding = 'LINEAR16';
-  const sampleRateHertz = 16000;
+async function transcriptFromClient(audioData) {
+  const encoding = 'FLAC';
+  const sampleRateHertz = 44100;
   const languageCode = 'en-US';
 
-  const audio = { content: buffer.toString('base64') };
-  // console.log({audio})
-
-  const config = { encoding, sampleRateHertz, languageCode };
+  const config = {
+    encoding, sampleRateHertz, languageCode, interimResults: true,
+  };
+  const audio = { content: audioData };
   const request = { config, audio };
 
   const client = new speech.SpeechClient();
   const [response] = await client.recognize(request);
+
   const transcription = response.results
     .map((result) => result.alternatives[0].transcript)
     .join('\n');
+
   return transcription;
-};
+}
 
 module.exports = { getTranscription, transcriptFromClient };

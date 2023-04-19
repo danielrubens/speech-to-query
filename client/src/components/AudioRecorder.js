@@ -42,9 +42,9 @@ const AudioRecorder = () => {
         const audioBlob = await fetch(recordings[index])
         .then(response => response.blob());
         const formData = new FormData()
-        formData.append('audio', audioBlob);
-        const message = await sendAudio(formData)
-        console.log(message)
+        formData.append('audio', audioBlob, 'audio.flac');
+        await sendAudio(formData)
+        // await sendAudio({audio})
     }
 
     return(
