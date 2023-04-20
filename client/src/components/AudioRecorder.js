@@ -41,6 +41,7 @@ const AudioRecorder = () => {
     const handleDelete = (index) => {
         const filtered = recordings.filter((i, objIndex) => objIndex !== index)
         setRecordings(filtered)
+        setTranscription('')
     }
 
 
@@ -51,13 +52,6 @@ const AudioRecorder = () => {
         formData.append('audio', audioBlob);
         await sendAudio(formData)
         setSavedForm(formData)
-        // const audioUrl = await fetch(recordings[index])
-        //   .then(response => response.blob())
-        //   .then(blob => URL.createObjectURL(blob));
-        // const formData = new FormData()
-        // formData.append('audio', audioUrl);
-        // await sendAudio(formData)
-        // URL.revokeObjectURL(audioUrl);
       }
 
     return(
